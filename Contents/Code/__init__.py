@@ -1,10 +1,22 @@
 #themoviedb
 #note: right now, themoviedb only supports "en" for language
+#note : This is a first try to get it supporting other languages, first try : let's change it to francais. (made done by Aqntbghd)
+
+# TODO : default to english if the localized version is not found ? but why ? isn't it a way to place english as superior to all other languages ? :)
+# TODO : Deal with languages AND locations as TMDB makes the difference between them.
+# TODO : Deal with TMDB set of films as collections as soon as the API is made public
+
 import time
 
+#that one does not need to be localized (why ? i don't know but i think it might break it).
 TMDB_GETINFO_IMDB = 'http://api.themoviedb.org/2.1/Movie.imdbLookup/en/json/a3dc111e66105f6387e99393813ae4d5/%s'
-TMDB_GETINFO_TMDB = 'http://api.themoviedb.org/2.1/Movie.getInfo/en/json/a3dc111e66105f6387e99393813ae4d5/%s'
-TMDB_GETINFO_HASH = 'http://api.themoviedb.org/2.1/Hash.getInfo/en/json/a3dc111e66105f6387e99393813ae4d5/%s'
+
+# These two are localized to use a language and country code as a parameter (for example 'fr-FR' for french in FRance)
+# so we have to map the language to that code unles Plex supports localization and internationalisation (l10n and i18n)
+
+TMDB_GETINFO_TMDB = 'http://api.themoviedb.org/2.1/Movie.getInfo/%s/json/a3dc111e66105f6387e99393813ae4d5/%s'
+TMDB_GETINFO_HASH = 'http://api.themoviedb.org/2.1/Hash.getInfo/%s/json/a3dc111e66105f6387e99393813ae4d5/%s'
+
 
 def Start():
   HTTP.CacheTime = CACHE_1HOUR * 4
@@ -12,7 +24,17 @@ def Start():
 @expose
 def GetImdbIdFromHash(openSubtitlesHash, lang):
   try:
-    tmdb_dict = JSON.ObjectFromURL(TMDB_GETINFO_HASH % str(openSubtitlesHash))[0]
+  # Language table
+    THEMOVIEDB_LANGUAGES_CODES = {
+      'fr': 'fr-FR',
+      'en': 'en',
+      'nl': 'nl',
+      'de': 'de',
+      'it': 'it',
+      'es': 'es',
+      'da': 'da'
+    }
+    tmdb_dict = JSON.ObjectFromURL(TMDB_GETINFO_HASH % (THEMOVIEDB_LANGUAGES_CODES[lang],str(openSubtitlesHash)))[0]
     if isinstance(tmdb_dict, dict) and tmdb_dict.has_key('imdb_id'):
       return MetadataSearchResult(
         id    = tmdb_dict['imdb_id'],
@@ -27,8 +49,11 @@ def GetImdbIdFromHash(openSubtitlesHash, lang):
     return None
   
 class TMDbAgent(Agent.Movies):
-  name = 'TheMovieDB'
-  languages = [Locale.Language.English]
+
+  name = 'TheMovieDB-Aqntbghd'
+  # languages = [Locale.Language.English, 'fr']
+  languages = [Locale.Language.English, 'fr', 'nl', 'de', 'it', 'es','da']
+
   primary_provider = False
   contributes_to = ['com.plexapp.agents.imdb']
   
@@ -41,12 +66,22 @@ class TMDbAgent(Agent.Movies):
       match = GetImdbIdFromHash(media.openSubtitlesHash, lang)
 
   def update(self, metadata, media, lang): 
+  # Language table
+    THEMOVIEDB_LANGUAGES_CODES = {
+      'fr': 'fr-FR',
+      'en': 'en',
+      'nl': 'nl',
+      'de': 'de',
+      'it': 'it',
+      'es': 'es',
+      'da': 'da'
+    }
     proxy = Proxy.Preview
     try:
-      tmdb_info = HTTP.Request(TMDB_GETINFO_TMDB % metadata.id).content
+      tmdb_info = HTTP.Request(TMDB_GETINFO_TMDB % (THEMOVIEDB_LANGUAGES_CODES[lang],metadata.id)).content
       if tmdb_info.count('503 Service Unavailable') > 0:
         time.sleep(5)
-        tmdb_info = HTTP.Request(TMDB_GETINFO_TMDB % metadata.id, cacheTime=0).content
+        tmdb_info = HTTP.Request(TMDB_GETINFO_TMDB % (THEMOVIEDB_LANGUAGES_CODES[lang],metadata.id), cacheTime=0).content
       tmdb_dict = JSON.ObjectFromString(tmdb_info)[0] #get the full TMDB info record using the TMDB id
     except:
       Log('Exception fetching JSON from theMovieDB (1).')
@@ -58,6 +93,9 @@ class TMDbAgent(Agent.Movies):
     if votes > 3:
       metadata.rating = rating
     
+    # Title of the film.
+    metadata.title = tmdb_dict['name']
+
     # Tagline.
     metadata.tagline = tmdb_dict['tagline']
       
