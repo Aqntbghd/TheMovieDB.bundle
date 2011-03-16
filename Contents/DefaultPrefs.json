@@ -1,0 +1,15 @@
+[
+  {
+    "id":"title",
+    "label":"Use Movie Title from TheMovieDB",
+    "type":"bool",
+    "default":"false"
+  },
+  {
+    "id":"country",
+    "label":"Country",
+    "type":"enum",
+    "values":       ["Automatic","France", "Canada","USA","UK"],
+    "default":"Automatic"
+  }
+]
