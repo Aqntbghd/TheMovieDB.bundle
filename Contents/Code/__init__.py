@@ -12,27 +12,81 @@ TMDB_GETINFO_TMDB = 'http://api.themoviedb.org/2.1/Movie.getInfo/%s/json/a3dc111
 TMDB_GETINFO_HASH = 'http://api.themoviedb.org/2.1/Hash.getInfo/%s/json/a3dc111e66105f6387e99393813ae4d5/%s'
 
 TMDB_LANGUAGE_CODES = {
-  'en': 'en',
-  'sv': 'sv',
-  'fr': 'fr',
-  'es': 'es',
-  'nl': 'nl',
+  'da': 'da',
   'de': 'de',
+  'en': 'en',
+  'es': 'es',
+  'fr': 'fr',
   'it': 'it',
-  'da': 'da'
+  'nl': 'nl',
+  'pt': 'pt',
+  'sv': 'sv',
+  'zh': 'zh'
 }
 
 # See defaultPrefs.json for the default values here.
 TMDB_COUNTRY_CODES = {
   'Automatic': '',
-  'France': '-FR',
+  'Argentina': '-AR',
+  'Australia': '-AU',
+  'Austria': '-AT',
+  'Belgium': '-BE',
+  'Belgium': '-BE',
+  'Belize': '-BZ',
+  'Bolivia': '-BO',
+  'Brazil': '-BR',
   'Canada': '-CA',
-  'UK': '-GB',
-  'USA': '-US'
+  'Canada': '-CA',
+  'Chile': '-CL',
+  'Colombia': '-CO',
+  'Costa Rica': '-CR',
+  'Dominican Republic': '-DO',
+  'Ecuador': '-EC',
+  'El Salvador': '-SV',
+  'France': '-FR',
+  'Germany': '-DE',
+  'Guatemala': '-GT',
+  'Honduras': '-HN',
+  'Hong Kong SAR': '-HK',
+  'Ireland': '-IE',
+  'Italy': '-IT',
+  'Jamaica': '-JM',
+  'Liechtenstein': '-LI',
+  'Luxembourg': '-LU',
+  'Luxembourg': '-LU',
+  'Mexico': '-MX',
+  'Netherlands': '-NL',
+  'New Zealand': '-NZ',
+  'Nicaragua': '-NI',
+  'Panama': '-PA',
+  'Paraguay': '-PY',
+  'Peru': '-PE',
+  'Portugal': '-PT',
+  'Peoples Republic of China': '-CN',
+  'Puerto Rico': '-PR',
+  'Singapore': '-SG',
+  'South Africa': '-ZA',
+  'Spain': '-ES',
+  'Switzerland': '-CH',
+  'Switzerland': '-CH',
+  'Switzerland': '-CH',
+  'Taiwan': '-TW',
+  'Trinidad': '-TT',
+  'United Kingdom': '-GB',
+  'United States': '-US',
+  'Uruguay': '-UY',
+  'Venezuela': '-VE'
 }
 # See defaultPrefs.json for the default values here.
 TMDB_LANG_TO_COUNTRY = {
-  'fr' : '-FR'
+  'de': '-DE',
+  'en': '-US',
+  'es': '-ES',
+  'fr': '-FR',
+  'it': '-IT',
+  'nl': '-NL',
+  'pt': '-PT',
+  'zh': '-CN'
 }
 
 def Start():
