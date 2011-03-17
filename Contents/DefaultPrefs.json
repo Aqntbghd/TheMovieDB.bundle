@@ -9,7 +9,7 @@
     "id":"country",
     "label":"Country",
     "type":"enum",
-    "values":       ["Automatic","France", "Canada","USA","UK"],
+    "values":       ["Automatic","Argentina","Australia","Austria","Belgium","Belize","Bolivia","Brazil","Canada","Chile","Colombia","Costa Rica","Dominican Republic","Ecuador","El Salvador","France","Germany","Guatemala","Honduras","Hong Kong SAR","Ireland","Italy","Jamaica","Liechtenstein","Luxembourg","Mexico","Netherlands","New Zealand","Nicaragua","Panama","Paraguay","Peru","Portugal","Peoples Republic of China","Puerto Rico","Singapore","South Africa","Spain","Switzerland","Taiwan","Trinidad","United Kingdom","United States","Uruguay","Venezuela"],
     "default":"Automatic"
   }
 ]
