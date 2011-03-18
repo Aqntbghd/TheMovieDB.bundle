@@ -12,6 +12,7 @@ TMDB_GETINFO_TMDB = 'http://api.themoviedb.org/2.1/Movie.getInfo/%s/json/a3dc111
 TMDB_GETINFO_HASH = 'http://api.themoviedb.org/2.1/Hash.getInfo/%s/json/a3dc111e66105f6387e99393813ae4d5/%s'
 
 TMDB_LANGUAGE_CODES = {
+  'cs': 'cs',
   'da': 'da',
   'de': 'de',
   'en': 'en',
@@ -38,6 +39,7 @@ TMDB_COUNTRY_CODES = {
   'Chile': '-CL',
   'Colombia': '-CO',
   'Costa Rica': '-CR',
+  'Czech Republic': '-CZ',
   'Dominican Republic': '-DO',
   'Ecuador': '-EC',
   'El Salvador': '-SV',
@@ -74,6 +76,7 @@ TMDB_COUNTRY_CODES = {
 }
 # See defaultPrefs.json for the default values here.
 TMDB_LANG_TO_COUNTRY = {
+  'cs': '-CZ',
   'de': '-DE',
   'en': '-US',
   'es': '-ES',
