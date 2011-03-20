@@ -134,7 +134,7 @@ def GetImdbIdFromHash(openSubtitlesHash, lang):
     return None
 
 class TMDbAgent(Agent.Movies):
-  name = 'TheMovieDB-Aqntbghd'
+  name = 'TheMovieDB'
   languages = [Locale.Language.English, Locale.Language.Swedish, Locale.Language.French,
                Locale.Language.Spanish, Locale.Language.Dutch, Locale.Language.German,
                Locale.Language.Italian, Locale.Language.Danish]
