@@ -89,6 +89,7 @@ TMDB_LANG_TO_COUNTRY = {
 
 def Start():
   HTTP.CacheTime = CACHE_1HOUR * 4
+  Log('Starting TheMovieDB agent.')
 
 def GetLanguageCode(lang):
   if TMDB_LANGUAGE_CODES.has_key(lang):
@@ -102,7 +103,7 @@ def GetCountryCode(country):
   else:
     return ''
 
-def GetCountryCodebyLang(lang):
+def GetCountryCodeByLang(lang):
   if TMDB_LANG_TO_COUNTRY.has_key(lang):
     return TMDB_LANG_TO_COUNTRY[lang]
   else:
@@ -111,10 +112,10 @@ def GetCountryCodebyLang(lang):
 def GetTMDBLangAndCountryCode(lang):
   output = GetLanguageCode(lang)
   if Prefs['country'] == "Automatic" :
-    output += GetCountryCodeByLang() 
+    output += GetCountryCodeByLang(lang) 
   else:
     output += GetCountryCode(Prefs['country'])
-  return ouput
+  return output
 
 @expose
 def GetImdbIdFromHash(openSubtitlesHash, lang):
@@ -151,6 +152,7 @@ class TMDbAgent(Agent.Movies):
 
   def update(self, metadata, media, lang): 
     proxy = Proxy.Preview
+    Log('Update called : Lang=%s\tComputed Country=%s\tMetadata.id=%s' % (lang, GetTMDBLangAndCountryCode(lang), metadata.id))
     try:
       tmdb_info = HTTP.Request(TMDB_GETINFO_TMDB % (GetTMDBLangAndCountryCode(lang), metadata.id)).content
       if tmdb_info.count('503 Service Unavailable') > 0:
