@@ -143,6 +143,7 @@ class TMDbAgent(Agent.Movies):
   contributes_to = ['com.plexapp.agents.imdb']
 
   def search(self, results, media, lang):
+    Log("Entering search (%s,%s)" % (media.primary_metadata.id,lang))
     if media.primary_metadata is not None:
       tmdb_id = self.get_tmdb_id(media.primary_metadata.id) # get the TMDb ID using the IMDB ID
       if tmdb_id:
@@ -164,27 +165,32 @@ class TMDbAgent(Agent.Movies):
       return None
 
     # Rating.
-    votes = tmdb_dict['votes']
-    rating = tmdb_dict['rating']
-    if votes > 3:
-      metadata.rating = rating
+    if tmdb_dict['votes'] is not None and tmdb_dict['rating'] is not None:
+      votes = tmdb_dict['votes']
+      rating = tmdb_dict['rating']
+      if votes > 3:
+        metadata.rating = rating
 
     # Title of the film.
     if Prefs['title']:
-      metadata.title = tmdb_dict['name']
+      if tmdb_dict['name'] is not None:
+        metadata.title = tmdb_dict['name']
     else:
       metadata.title = ""
 
     # Tagline.
-    metadata.tagline = tmdb_dict['tagline']
+    if tmdb_dict['tagline'] is not None:
+      metadata.tagline = tmdb_dict['tagline']
 
     # Content rating.
-    metadata.content_rating = tmdb_dict['certification']
+    if tmdb_dict['certification'] is not None:
+      metadata.content_rating = tmdb_dict['certification']
 
     # Summary.
-    metadata.summary = tmdb_dict['overview']
-    if metadata.summary == 'No overview found.':
-      metadata.summary = ""
+    if tmdb_dict['overview'] is not None:
+      metadata.summary = tmdb_dict['overview']
+      if metadata.summary == 'No overview found.':
+        metadata.summary = ""
 
     # Release date.
     try: 
@@ -268,6 +274,9 @@ class TMDbAgent(Agent.Movies):
     except:
       Log('Exception fetching JSON from theMovieDB (2).')
       return None
+# Aqntbghd: Commented, used for debug in case of douts about the matching.
+#    for m in JSON.ObjectFromString(tmdb_info):
+#      Log("Looking for %s I found %s as %s" %(str(imdb_id),str(m['id']),str(m['imdb_id'])))
     if tmdb_dict and isinstance(tmdb_dict, dict):
       return str(tmdb_dict['id'])
     else:
