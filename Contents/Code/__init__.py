@@ -184,7 +184,12 @@ class TMDbAgent(Agent.Movies):
 
     # Content rating.
     if tmdb_dict['certification'] is not None:
-      metadata.content_rating = tmdb_dict['certification']
+      if GetTMDBLangAndCountryCode(lang) == 'fr-FR':
+         # we have a special case for french people, we may have to support it also for nl (see Media-Flags.bundle)
+         # TODO: ask plex devs to i18n the mediaflags ratings
+         metadata.content_rating = "fr/" + tmdb_dict['certification']
+      else :
+         metadata.content_rating = tmdb_dict['certification']
 
     # Summary.
     if tmdb_dict['overview'] is not None:
